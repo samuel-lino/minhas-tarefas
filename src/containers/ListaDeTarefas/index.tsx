@@ -1,29 +1,30 @@
 import Tarefa from '../../components/tarefa'
 import { Container } from './style'
+import * as enums from '../../utils/enum/tarefa'
 
 const tarefas = [
   {
     titulo: 'Terminar projeto 5',
-    prioridade: 'importante',
-    status: 'pendente',
+    prioridade: enums.prioridade.IMPORTANTE,
+    status: enums.Status.PENDENTE,
     descricao: 'concluir o projeto 5 do curso Fullstack pyton da EBAC'
   },
   {
     titulo: 'Finalizar a parte front-end',
-    prioridade: 'importante',
-    status: 'pendente',
+    prioridade: enums.prioridade.IMPORTANTE,
+    status: enums.Status.PENDENTE,
     descricao: 'concluir a parte front-end do curso Fullstack pyton da EBAC'
   },
   {
     titulo: 'Pagar a conta de Luz',
-    prioridade: 'urgente',
-    status: 'concluída',
+    prioridade: enums.prioridade.URGENTE,
+    status: enums.Status.CONCLUIDA,
     descricao: 'pagar a conta de energia'
   },
   {
     titulo: 'Pagar a internete',
-    prioridade: 'urgente',
-    status: 'pendente',
+    prioridade: enums.prioridade.URGENTE,
+    status: enums.Status.PENDENTE,
     descricao: 'Pagar a conta de internete'
   }
 ]
