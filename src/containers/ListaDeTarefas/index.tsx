@@ -4,25 +4,25 @@ import { Container } from './style'
 const tarefas = [
   {
     titulo: 'Terminar projeto 5',
-    prioridade: 'Importante',
-    status: 'Pendente',
+    prioridade: 'importante',
+    status: 'pendente',
     descricao: 'concluir o projeto 5 do curso Fullstack pyton da EBAC'
   },
   {
     titulo: 'Finalizar a parte front-end',
-    prioridade: 'Importante',
-    status: 'Pendente',
+    prioridade: 'importante',
+    status: 'pendente',
     descricao: 'concluir a parte front-end do curso Fullstack pyton da EBAC'
   },
   {
     titulo: 'Pagar a conta de Luz',
-    prioridade: 'Urgente',
-    status: 'Concluida',
+    prioridade: 'urgente',
+    status: 'concluída',
     descricao: 'pagar a conta de energia'
   },
   {
     titulo: 'Pagar a internete',
-    prioridade: 'Urgente',
+    prioridade: 'urgente',
     status: 'pendente',
     descricao: 'Pagar a conta de internete'
   }
