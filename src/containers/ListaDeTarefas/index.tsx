@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import Tarefa from '../../components/tarefa'
-import { Container, Inicio } from './style'
+import { MainContainer, Titulo } from '../../styles'
 import { RootReducer } from '../../store'
 
 const ListaDeTarefas = () => {
@@ -45,12 +45,12 @@ const ListaDeTarefas = () => {
   }
 
   return (
-    <Container>
-      <Inicio>
+    <MainContainer as="main">
+      <Titulo as="p">
         {tarefasVisiveis.length} tarefa(s) marcada(s) como &ldquo;
         {nomeFiltro()}
         &rdquo;{termo !== undefined && termo.length > 0 ? ` e "${termo}"` : ''}.
-      </Inicio>
+      </Titulo>
       <ul>
         {tarefasVisiveis.map((t) => (
           <li key={t.id}>
@@ -64,7 +64,7 @@ const ListaDeTarefas = () => {
           </li>
         ))}
       </ul>
-    </Container>
+    </MainContainer>
   )
 }
 

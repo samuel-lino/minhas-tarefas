@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import * as S from './style'
 import { useDispatch } from 'react-redux'
-import { remover, salvar } from '../../store/reducers/tarefas'
+import { alterarStatus, remover, salvar } from '../../store/reducers/tarefas'
 import TarefaClass from '../../models/Tarefa'
+import { BotaoSalvar } from '../../styles'
 
 export type Props = TarefaClass
 const Tarefa = ({
@@ -15,14 +16,29 @@ const Tarefa = ({
   const [estaeditando, setEstaeditando] = useState(false)
   const [descricao, setDescicao] = useState('')
   const dispatch = useDispatch()
+
   useEffect(() => {
     if (descricaoOriginal.length > 0) {
       setDescicao(descricaoOriginal)
     }
   }, [descricaoOriginal])
+
+  function alterarStatusTarefa(evento: ChangeEvent<HTMLInputElement>) {
+    console.log(evento.target.checked)
+    dispatch(
+      alterarStatus({
+        id,
+        finalizado: evento.target.checked
+      })
+    )
+  }
+
   return (
     <S.Card id={String(id)}>
-      <S.Titulo>{titulo}</S.Titulo>
+      <label htmlFor={titulo}>
+        <input type="checkbox" id={titulo} onChange={alterarStatusTarefa} />
+        <S.Titulo>{titulo}</S.Titulo>
+      </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
       </S.Tag>
@@ -39,14 +55,14 @@ const Tarefa = ({
       <S.BarraDeAcoes>
         {estaeditando ? (
           <>
-            <S.BotaoSalvar
+            <BotaoSalvar
               onClick={() => {
                 dispatch(salvar({ descricao, prioridade, status, titulo, id }))
                 setEstaeditando(false)
               }}
             >
               Salvar
-            </S.BotaoSalvar>
+            </BotaoSalvar>
             <S.BotaoCancelarRemover
               onClick={() => {
                 setEstaeditando(false)

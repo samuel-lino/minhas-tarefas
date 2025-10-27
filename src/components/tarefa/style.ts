@@ -26,12 +26,22 @@ export const Card = styled.div`
   padding: 16px;
   margin-bottom: 36px;
   border-radius: 16px;
+
+  label {
+    display: flex;
+    align-itens: center;
+    margin-bottom: 16px;
+
+    input {
+      margin-right: 8px;
+    }
+  }
 `
 
 export const Titulo = styled.h3`
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 16px;
+  text-transform: capitalize;
 `
 
 export const Tag = styled.span<TagsProps>`
@@ -75,9 +85,7 @@ export const Botao = styled.button`
   border-radius: 8px;
   margin-right: 8px;
 `
-export const BotaoSalvar = styled(Botao)`
-  background-color: ${variaveis.verde};
-`
+
 export const BotaoCancelarRemover = styled(Botao)`
   background-color: ${variaveis.vermelho};
 `
