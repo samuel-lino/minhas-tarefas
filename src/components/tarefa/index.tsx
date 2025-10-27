@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { alterarStatus, remover, salvar } from '../../store/reducers/tarefas'
 import TarefaClass from '../../models/Tarefa'
 import { BotaoSalvar } from '../../styles'
+import * as enums from '../../utils/enum/tarefa'
 
 export type Props = TarefaClass
 const Tarefa = ({
@@ -36,7 +37,12 @@ const Tarefa = ({
   return (
     <S.Card id={String(id)}>
       <label htmlFor={titulo}>
-        <input type="checkbox" id={titulo} onChange={alterarStatusTarefa} />
+        <input
+          type="checkbox"
+          checked={status === enums.Status.CONCLUIDA}
+          id={titulo}
+          onChange={alterarStatusTarefa}
+        />
         <S.Titulo>{titulo}</S.Titulo>
       </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
