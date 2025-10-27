@@ -5,20 +5,37 @@ import { RootReducer } from '../../store'
 
 const ListaDeTarefas = () => {
   const tarefas = useSelector((state: RootReducer) => state.tarefas.itens)
-  const { termo } = useSelector((state: RootReducer) => state.filtro)
+  const { termo, criterio, valor } = useSelector(
+    (state: RootReducer) => state.filtro
+  )
 
   const filtrarTarefas = () => {
-    return tarefas.filter(
-      (tarefa) =>
-        tarefa.titulo.toLocaleLowerCase().search(termo.toLocaleLowerCase()) >= 0
-    )
+    let tarefasFiltradas = tarefas
+    if (termo) {
+      tarefasFiltradas = tarefasFiltradas.filter(
+        (tarefa) =>
+          tarefa.titulo.toLocaleLowerCase().search(termo.toLocaleLowerCase()) >=
+          0
+      )
+    }
+    if (criterio === 'prioridade') {
+      tarefasFiltradas = tarefasFiltradas.filter(
+        (tarefa) => tarefa.prioridade === valor
+      )
+    } else if (criterio === 'status') {
+      tarefasFiltradas = tarefasFiltradas.filter(
+        (tarefa) => tarefa.status === valor
+      )
+    }
+    return tarefasFiltradas
   }
 
   return (
     <Container>
       <p>
-        {filtrarTarefas().length} tarefas marcadas como &ldquo;categoria&rdquo;
-        e &ldquo;{termo}&rdquo;.
+        {filtrarTarefas().length} tarefas marcadas como &ldquo;
+        {valor.charAt(0).toUpperCase() + valor.slice(1)}&rdquo; e &ldquo;{termo}
+        &rdquo;.
       </p>
       <ul>
         {filtrarTarefas().map((t) => (
