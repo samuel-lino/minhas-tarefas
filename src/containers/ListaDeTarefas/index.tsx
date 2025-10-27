@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import Tarefa from '../../components/tarefa'
-import { Container } from './style'
+import { Container, Inicio } from './style'
 import { RootReducer } from '../../store'
 
 const ListaDeTarefas = () => {
@@ -30,15 +30,29 @@ const ListaDeTarefas = () => {
     return tarefasFiltradas
   }
 
+  const tarefasVisiveis = filtrarTarefas()
+
+  const nomeFiltro = () => {
+    if (valor === 'todas') return valor.charAt(0).toUpperCase() + valor.slice(1)
+    else
+      return (
+        criterio.charAt(0).toUpperCase() +
+        criterio.slice(1) +
+        ' = ' +
+        valor.charAt(0).toUpperCase() +
+        valor.slice(1)
+      )
+  }
+
   return (
     <Container>
-      <p>
-        {filtrarTarefas().length} tarefas marcadas como &ldquo;
-        {valor.charAt(0).toUpperCase() + valor.slice(1)}&rdquo; e &ldquo;{termo}
-        &rdquo;.
-      </p>
+      <Inicio>
+        {tarefasVisiveis.length} tarefa(s) marcada(s) como &ldquo;
+        {nomeFiltro()}
+        &rdquo;{termo !== undefined && termo.length > 0 ? ` e "${termo}"` : ''}.
+      </Inicio>
       <ul>
-        {filtrarTarefas().map((t) => (
+        {tarefasVisiveis.map((t) => (
           <li key={t.id}>
             <Tarefa
               id={t.id}
