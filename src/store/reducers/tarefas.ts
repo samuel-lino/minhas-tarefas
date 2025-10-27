@@ -2,9 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Tarefa from '../../models/Tarefa'
 import * as enums from '../../utils/enum/tarefa'
 
-const tarefasSlice = createSlice({
-  name: 'tarefas',
-  initialState: [
+type TarefasState = {
+  itens: Tarefa[]
+}
+const initialState: TarefasState = {
+  itens: [
     new Tarefa(
       'Terminar projeto 5',
       'concluir o projeto 5 do curso Fullstack pyton da EBAC',
@@ -26,13 +28,25 @@ const tarefasSlice = createSlice({
       enums.Status.PENDENTE,
       3
     )
-  ],
+  ]
+}
+
+const tarefasSlice = createSlice({
+  name: 'tarefas',
+  initialState,
   reducers: {
     remover: (state, action: PayloadAction<number>) => {
-      state = state.filter((tarefa) => tarefa.id !== action.payload)
+      state.itens = state.itens.filter((tarefa) => tarefa.id !== action.payload)
+    },
+    salvar: (state, action: PayloadAction<Tarefa>) => {
+      const tarefaid = state.itens.findIndex((t) => t.id === action.payload.id)
+
+      if (tarefaid >= 0) {
+        state.itens[tarefaid] = action.payload
+      }
     }
   }
 })
 
-export const { remover } = tarefasSlice.actions
+export const { remover, salvar } = tarefasSlice.actions
 export default tarefasSlice.reducer
