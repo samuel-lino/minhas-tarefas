@@ -1,12 +1,16 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import * as S from './style'
+import { useState, useEffect, ChangeEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import { alterarStatus, remover, salvar } from '../../store/reducers/tarefas'
+
+import * as S from './style'
+
+import { remover, salvar, alterarStatus } from '../../store/reducers/tarefas'
 import TarefaClass from '../../models/Tarefa'
 import { BotaoSalvar } from '../../styles'
+
 import * as enums from '../../utils/enum/tarefa'
 
-export type Props = TarefaClass
+type Props = TarefaClass
+
 const Tarefa = ({
   descricao: descricaoOriginal,
   prioridade,
@@ -14,73 +18,85 @@ const Tarefa = ({
   titulo,
   id
 }: Props) => {
-  const [estaeditando, setEstaeditando] = useState(false)
-  const [descricao, setDescicao] = useState('')
   const dispatch = useDispatch()
+  const [estaEditando, setEstaEditando] = useState(false)
+  const [descricao, setDescricao] = useState('')
+  const [estado, setEstado] = useState(status)
 
   useEffect(() => {
     if (descricaoOriginal.length > 0) {
-      setDescicao(descricaoOriginal)
+      setDescricao(descricaoOriginal)
     }
   }, [descricaoOriginal])
 
-  function alterarStatusTarefa(evento: ChangeEvent<HTMLInputElement>) {
-    console.log(evento.target.checked)
+  function cancelarEdicao() {
+    setEstaEditando(false)
+    setDescricao(descricaoOriginal)
+  }
+
+  function alteraStatusTarefa(evento: ChangeEvent<HTMLInputElement>) {
     dispatch(
       alterarStatus({
         id,
         finalizado: evento.target.checked
       })
     )
+    setEstado(
+      evento.target.checked ? enums.Status.CONCLUIDA : enums.Status.PENDENTE
+    )
   }
 
   return (
-    <S.Card id={String(id)}>
+    <S.Card>
       <label htmlFor={titulo}>
         <input
           type="checkbox"
-          checked={status === enums.Status.CONCLUIDA}
           id={titulo}
-          onChange={alterarStatusTarefa}
+          checked={estado === enums.Status.CONCLUIDA}
+          onChange={alteraStatusTarefa}
         />
-        <S.Titulo>{titulo}</S.Titulo>
+        <S.Titulo>
+          {estaEditando && <em>Editando: </em>}
+          {titulo}
+        </S.Titulo>
       </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
       </S.Tag>
-      <S.Tag parametro="status" status={status}>
-        {status}
+      <S.Tag parametro="status" status={estado}>
+        {estado}
       </S.Tag>
       <S.Descricao
+        disabled={!estaEditando}
         value={descricao}
-        disabled={!estaeditando}
-        onChange={(evento) => {
-          setDescicao(evento.target.value)
-        }}
+        onChange={(evento) => setDescricao(evento.target.value)}
       />
       <S.BarraDeAcoes>
-        {estaeditando ? (
+        {estaEditando ? (
           <>
             <BotaoSalvar
               onClick={() => {
-                dispatch(salvar({ descricao, prioridade, status, titulo, id }))
-                setEstaeditando(false)
+                dispatch(
+                  salvar({
+                    descricao,
+                    prioridade,
+                    status,
+                    titulo,
+                    id
+                  })
+                )
+                setEstaEditando(false)
               }}
             >
               Salvar
             </BotaoSalvar>
-            <S.BotaoCancelarRemover
-              onClick={() => {
-                setEstaeditando(false)
-                setDescicao(descricaoOriginal)
-              }}
-            >
+            <S.BotaoCancelarRemover onClick={cancelarEdicao}>
               Cancelar
             </S.BotaoCancelarRemover>
           </>
         ) : (
           <>
-            <S.Botao onClick={() => setEstaeditando(true)}>Editar</S.Botao>
+            <S.Botao onClick={() => setEstaEditando(true)}>Editar</S.Botao>
             <S.BotaoCancelarRemover onClick={() => dispatch(remover(id))}>
               Remover
             </S.BotaoCancelarRemover>

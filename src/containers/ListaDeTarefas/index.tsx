@@ -4,13 +4,13 @@ import { MainContainer, Titulo } from '../../styles'
 import { RootReducer } from '../../store'
 
 const ListaDeTarefas = () => {
-  const tarefas = useSelector((state: RootReducer) => state.tarefas.itens)
+  const { itens } = useSelector((state: RootReducer) => state.tarefas)
   const { termo, criterio, valor } = useSelector(
     (state: RootReducer) => state.filtro
   )
 
   const filtrarTarefas = () => {
-    let tarefasFiltradas = tarefas
+    let tarefasFiltradas = itens
     if (termo) {
       tarefasFiltradas = tarefasFiltradas.filter(
         (tarefa) =>

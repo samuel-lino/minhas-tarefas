@@ -69,7 +69,6 @@ const tarefasSlice = createSlice({
           ? enums.Status.CONCLUIDA
           : enums.Status.PENDENTE
       }
-      console.log(state.itens[tarefaid])
     }
   }
 })
