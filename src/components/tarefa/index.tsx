@@ -5,7 +5,7 @@ import * as S from './style'
 
 import { remover, salvar, alterarStatus } from '../../store/reducers/tarefas'
 import TarefaClass from '../../models/Tarefa'
-import { BotaoSalvar } from '../../styles'
+import { Botao, BotaoSalvar } from '../../styles'
 
 import * as enums from '../../utils/enum/tarefa'
 
@@ -21,7 +21,6 @@ const Tarefa = ({
   const dispatch = useDispatch()
   const [estaEditando, setEstaEditando] = useState(false)
   const [descricao, setDescricao] = useState('')
-  const [estado, setEstado] = useState(status)
 
   useEffect(() => {
     if (descricaoOriginal.length > 0) {
@@ -41,9 +40,6 @@ const Tarefa = ({
         finalizado: evento.target.checked
       })
     )
-    setEstado(
-      evento.target.checked ? enums.Status.CONCLUIDA : enums.Status.PENDENTE
-    )
   }
 
   return (
@@ -52,7 +48,7 @@ const Tarefa = ({
         <input
           type="checkbox"
           id={titulo}
-          checked={estado === enums.Status.CONCLUIDA}
+          checked={status === enums.Status.CONCLUIDA}
           onChange={alteraStatusTarefa}
         />
         <S.Titulo>
@@ -60,11 +56,11 @@ const Tarefa = ({
           {titulo}
         </S.Titulo>
       </label>
-      <S.Tag parametro="prioridade" prioridade={prioridade}>
+      <S.Tag $parametro="prioridade" $prioridade={prioridade}>
         {prioridade}
       </S.Tag>
-      <S.Tag parametro="status" status={estado}>
-        {estado}
+      <S.Tag $parametro="status" $status={status}>
+        {status}
       </S.Tag>
       <S.Descricao
         disabled={!estaEditando}
@@ -96,7 +92,7 @@ const Tarefa = ({
           </>
         ) : (
           <>
-            <S.Botao onClick={() => setEstaEditando(true)}>Editar</S.Botao>
+            <Botao onClick={() => setEstaEditando(true)}>Editar</Botao>
             <S.BotaoCancelarRemover onClick={() => dispatch(remover(id))}>
               Remover
             </S.BotaoCancelarRemover>

@@ -1,21 +1,23 @@
 import styled from 'styled-components'
 import variaveis from '../../styles/variaveis'
 import * as enums from '../../utils/enum/tarefa'
+import { Botao } from '../../styles'
 
 type TagsProps = {
-  status?: string
-  prioridade?: string
-  parametro: 'status' | 'prioridade'
+  $status?: string
+  $prioridade?: string
+  $parametro: 'status' | 'prioridade'
 }
 
 function retornarCorDeFundo(props: TagsProps): string {
-  if (props.parametro === 'prioridade') {
-    if (props.prioridade === enums.prioridade.URGENTE) return variaveis.vermelho
-    if (props.prioridade === enums.prioridade.IMPORTANTE)
+  if (props.$parametro === 'prioridade') {
+    if (props.$prioridade === enums.prioridade.URGENTE)
+      return variaveis.vermelho
+    if (props.$prioridade === enums.prioridade.IMPORTANTE)
       return variaveis.amarelo2
   } else {
-    if (props.status === enums.Status.PENDENTE) return variaveis.amarelo
-    if (props.status === enums.Status.CONCLUIDA) return variaveis.verde
+    if (props.$status === enums.Status.PENDENTE) return variaveis.amarelo
+    if (props.$status === enums.Status.CONCLUIDA) return variaveis.verde
   }
   return '#ccc'
 }
@@ -72,18 +74,6 @@ export const Descricao = styled.textarea`
 export const BarraDeAcoes = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   padding-top: 16px;
-`
-
-export const Botao = styled.button`
-  font-weight: bold;
-  color: #fff;
-  font-size: 12px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  background-color: #2f3640;
-  border-radius: 8px;
-  margin-right: 8px;
 `
 
 export const BotaoCancelarRemover = styled(Botao)`

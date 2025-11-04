@@ -12,7 +12,8 @@ export type Props = {
 const FiltroCards = ({ criterio, valor }: Props) => {
   const dispatch = useDispatch()
 
-  const { filtro, tarefas } = useSelector((state: RootReducer) => state)
+  const tarefas = useSelector((state: RootReducer) => state.tarefas.itens)
+  const filtro = useSelector((state: RootReducer) => state.filtro)
   const filtrar = () => {
     dispatch(
       alterarFiltro({
@@ -31,7 +32,7 @@ const FiltroCards = ({ criterio, valor }: Props) => {
 
   const ativo = verificarSeAtivo()
 
-  let tarefasFiltradas = tarefas.itens
+  let tarefasFiltradas = tarefas
   const numDeTarefas = () => {
     if (criterio === 'prioridade') {
       tarefasFiltradas = tarefasFiltradas.filter((t) => t.prioridade === valor)
@@ -41,7 +42,7 @@ const FiltroCards = ({ criterio, valor }: Props) => {
     return tarefasFiltradas.length
   }
   return (
-    <style.Card ativo={ativo} onClick={filtrar}>
+    <style.Card $ativo={ativo} onClick={filtrar}>
       <style.Contador>{numDeTarefas()}</style.Contador>
       <style.Label>
         {valor.charAt(0).toUpperCase() + valor.slice(1)}

@@ -7,27 +7,27 @@ type TarefasState = {
 }
 const initialState: TarefasState = {
   itens: [
-    new Tarefa(
-      'Terminar projeto 5',
-      'concluir o projeto 5 do curso Fullstack pyton da EBAC',
-      enums.prioridade.IMPORTANTE,
-      enums.Status.PENDENTE,
-      1
-    ),
-    new Tarefa(
-      'Pagar a conta de Luz',
-      'pagar a conta de energia',
-      enums.prioridade.URGENTE,
-      enums.Status.CONCLUIDA,
-      2
-    ),
-    new Tarefa(
-      'Finalizar a parte front-end',
-      'concluir a parte front-end do curso Fullstack pyton da EBAC',
-      enums.prioridade.NORMAL,
-      enums.Status.PENDENTE,
-      3
-    )
+    {
+      id: 1,
+      titulo: 'Terminar projeto 5',
+      descricao: 'concluir o projeto 5 do curso Fullstack pyton da EBAC',
+      prioridade: enums.prioridade.IMPORTANTE,
+      status: enums.Status.PENDENTE
+    },
+    {
+      id: 2,
+      titulo: 'Pagar a conta de Luz',
+      descricao: 'pagar a conta de energia',
+      prioridade: enums.prioridade.URGENTE,
+      status: enums.Status.CONCLUIDA
+    },
+    {
+      id: 3,
+      titulo: 'Finalizar a parte front-end',
+      descricao: 'concluir a parte front-end do curso Fullstack pyton da EBAC',
+      prioridade: enums.prioridade.NORMAL,
+      status: enums.Status.PENDENTE
+    }
   ]
 }
 
@@ -45,7 +45,7 @@ const tarefasSlice = createSlice({
         state.itens[tarefaid] = action.payload
       }
     },
-    cadastrar: (state, action: PayloadAction<Tarefa>) => {
+    cadastrar: (state, action: PayloadAction<Omit<Tarefa, 'id'>>) => {
       const tarefaJaExiste = state.itens.find(
         (tarefa) =>
           tarefa.titulo.toLowerCase() === action.payload.titulo.toLowerCase()
@@ -54,7 +54,12 @@ const tarefasSlice = createSlice({
       if (tarefaJaExiste) {
         alert('Já existe uma tarefa com este nome!')
       } else {
-        state.itens.push(action.payload)
+        const ultimatarefa = state.itens[state.itens.length - 1]
+        const novaTarefa = {
+          ...action.payload,
+          id: ultimatarefa ? ultimatarefa.id + 1 : 1
+        }
+        state.itens.push(novaTarefa)
       }
     },
     alterarStatus: (
@@ -62,7 +67,6 @@ const tarefasSlice = createSlice({
       action: PayloadAction<{ id: number; finalizado: boolean }>
     ) => {
       const tarefaid = state.itens.findIndex((t) => t.id === action.payload.id)
-      console.log(action.payload.id)
 
       if (tarefaid >= 0) {
         state.itens[tarefaid].status = action.payload.finalizado
